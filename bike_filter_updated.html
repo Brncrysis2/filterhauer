@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter by your bike</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #f1f2f3;
+      font-family: Arial, sans-serif;
+    }
+
+    .filter-container {
+      max-width: 1430px;
+      margin: 0 auto;
+      padding: 32px 64px;
+      border: 1px solid #c8c8c8;
+      border-radius: 30px;
+      background: #fff;
+      box-shadow: 0 4px 42px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-title {
+      font-size: 40px;
+      font-weight: bold;
+      color: #565656;
+      margin-bottom: 32px;
+      text-align: left;
+      letter-spacing: 2px;
+    }
+
+    .filter-content {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .filter-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #e02b20;
+      margin-bottom: 16px;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .buttons-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .filter-btn {
+      width: 147px;
+      height: 44px;
+      padding: 12px 22px;
+      border-radius: 980px;
+      border: 1px solid #000;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .filter-btn:hover {
+      background-color: #f0f0f0;
+    }
+
+    .filter-btn.active {
+      background-color: #e02b20;
+      color: white;
+      border-color: #e02b20;
+    }
+
+    .filter-btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .search-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+      height: 100%;
+      padding-top: 20px;
+    }
+
+    .search-btn {
+      width: 147px;
+      height: 44px;
+      padding: 12px 22px;
+      background-color: #d93025;
+      color: white;
+      border: none;
+      border-radius: 980px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-btn:hover {
+      background-color: #b7251b;
+    }
+
+    .search-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .results {
+      margin-top: 32px;
+      font-size: 16px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border-left: 4px solid #e02b20;
+      display: none;
+    }
+
+    .results a {
+      color: #e02b20;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .results a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #d93025;
+      font-weight: 500;
+    }
+
+    .success {
+      color: #2e7d32;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .filter-container {
+        padding: 24px 32px;
+      }
+      
+      .filter-content {
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .search-section {
+        align-self: flex-start;
+        padding-top: 0;
+      }
+
+      .button-row {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+      
+      .filter-container {
+        padding: 20px;
+      }
+      
+      .filter-title {
+        font-size: 32px;
+      }
+      
+      .filter-btn, .search-btn {
+        width: 120px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="filter-container">
+  <h1 class="filter-title">FILTER BY YOUR BIKE</h1>
+  
+  <div class="filter-content">
+    <!-- BRAND SECTION -->
+    <div class="filter-section">
+      <h3 class="section-title">BRAND</h3>
+      <div class="buttons-grid" id="brand-buttons">
+        <div class="button-row">
+          <button class="filter-btn" data-brand="SUZUKI">SUZUKI</button>
+          <button class="filter-btn" data-brand="BMW">BMW</button>
+        </div>
+        <div class="button-row">
+          <button class="filter-btn" data-brand="YAMAHA">YAMAHA</button>
+          <button class="filter-btn" data-brand="DUCATI">DUCATI</button>
+        </div>
+        <div class="button-row">
+          <button class="filter-btn" data-brand="TRIUMPH">TRIUMPH</button>
+          <button class="filter-btn" data-brand="KTM">KTM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODEL SECTION -->
+    <div class="filter-section">
+      <h3 class="section-title">MODEL</h3>
+      <div class="buttons-grid" id="model-buttons">
+        <div class="button-row">
+          <button class="filter-btn" data-model="GSX-R1000" data-brand="SUZUKI">GSX-R1000</button>
+          <button class="filter-btn" data-model="R1200GS" data-brand="BMW">R1200GS</button>
+        </div>
+        <div class="button-row">
+          <button class="filter-btn" data-model="MT-07" data-brand="YAMAHA">MT-07</button>
+          <button class="filter-btn" data-model="PANIGALE V4" data-brand="DUCATI">PANIGALE V4</button>
+        </div>
+        <div class="button-row">
+          <button class="filter-btn" data-model="STREET TRIPLE" data-brand="TRIUMPH">STREET TRIPLE</button>
+          <button class="filter-btn" data-model="DUKE 390" data-brand="KTM">DUKE 390</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH SECTION -->
+    <div class="search-section">
+      <button class="search-btn" id="searchBtn" disabled>Search</button>
+    </div>
+  </div>
+
+  <div class="results" id="results"></div>
+</div>
+
+<script>
+  // Mapeamento de redirecionamentos
+  const redirectMap = {
+    "SUZUKI|GSX-R1000": "https://hauerimports.com/collections/suzuki-gsx-r1000",
+    "BMW|R1200GS": "https://hauerimports.com/collections/bmw-r1200gs", 
+    "YAMAHA|MT-07": "https://hauerimports.com/collections/yamaha-mt-07",
+    "DUCATI|PANIGALE V4": "https://hauerimports.com/collections/ducati-panigale-v4",
+    "TRIUMPH|STREET TRIPLE": "https://hauerimports.com/collections/triumph-street-triple",
+    "KTM|DUKE 390": "https://hauerimports.com/collections/ktm-duke-390"
+  };
+
+  // Estado da aplicação
+  let selectedBrand = null;
+  let selectedModel = null;
+
+  // Elementos DOM
+  const brandButtons = document.querySelectorAll('#brand-buttons .filter-btn');
+  const modelButtons = document.querySelectorAll('#model-buttons .filter-btn');
+  const searchBtn = document.getElementById('searchBtn');
+  const resultsDiv = document.getElementById('results');
+
+  // Função para atualizar estado do botão de busca
+  function updateSearchButton() {
+    if (selectedBrand && selectedModel) {
+      searchBtn.disabled = false;
+      searchBtn.style.opacity = '1';
+    } else {
+      searchBtn.disabled = true;
+      searchBtn.style.opacity = '0.6';
+    }
+  }
+
+  // Função para filtrar modelos por marca
+  function filterModelsByBrand(brand) {
+    modelButtons.forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.dataset.brand === brand) {
+        btn.classList.remove('disabled');
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      } else {
+        btn.classList.add('disabled');
+        btn.style.opacity = '0.3';
+        btn.style.pointerEvents = 'none';
+      }
+    });
+  }
+
+  // Função para resetar filtros de modelo
+  function resetModelFilters() {
+    modelButtons.forEach(btn => {
+      btn.classList.remove('disabled');
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    });
+  }
+
+  // Event listeners para botões de marca
+  brandButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active de todos os botões de marca
+      brandButtons.forEach(b => b.classList.remove('active'));
+      
+      // Adiciona active ao botão clicado
+      btn.classList.add('active');
+      selectedBrand = btn.dataset.brand;
+      
+      // Filtra modelos compatíveis
+      filterModelsByBrand(selectedBrand);
+      
+      // Reset do modelo selecionado
+      selectedModel = null;
+      updateSearchButton();
+      
+      // Esconde resultados
+      resultsDiv.style.display = 'none';
+    });
+  });
+
+  // Event listeners para botões de modelo
+  modelButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Verifica se o modelo é compatível com a marca selecionada
+      if (selectedBrand && btn.dataset.brand !== selectedBrand) {
+        return; // Não permite seleção de modelo incompatível
+      }
+      
+      // Remove active de todos os botões de modelo
+      modelButtons.forEach(b => b.classList.remove('active'));
+      
+      // Adiciona active ao botão clicado
+      btn.classList.add('active');
+      selectedModel = btn.dataset.model;
+      
+      // Se não há marca selecionada, seleciona automaticamente
+      if (!selectedBrand) {
+        selectedBrand = btn.dataset.brand;
+        const brandBtn = document.querySelector(`#brand-buttons .filter-btn[data-brand="${selectedBrand}"]`);
+        if (brandBtn) {
+          brandButtons.forEach(b => b.classList.remove('active'));
+          brandBtn.classList.add('active');
+          filterModelsByBrand(selectedBrand);
+        }
+      }
+      
+      updateSearchButton();
+      
+      // Esconde resultados
+      resultsDiv.style.display = 'none';
+    });
+  });
+
+  // Event listener para botão de busca
+  searchBtn.addEventListener('click', () => {
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = '';
+
+    if (!selectedBrand || !selectedModel) {
+      resultsDiv.innerHTML = '<p class="error">Por favor, selecione uma marca e um modelo.</p>';
+      return;
+    }
+
+    const key = `${selectedBrand}|${selectedModel}`;
+    const link = redirectMap[key];
+
+    if (link) {
+      resultsDiv.innerHTML = `
+        <p class="success">✓ Combinação encontrada!</p>
+        <p><strong>${selectedBrand} ${selectedModel}</strong></p>
+        <p>Acesse o link: <a href="${link}" target="_blank">${link}</a></p>
+      `;
+    } else {
+      resultsDiv.innerHTML = `
+        <p class="error">❌ Nenhum link encontrado para <strong>${selectedBrand} ${selectedModel}</strong>.</p>
+        <p>Verifique o mapeamento no código.</p>
+      `;
+    }
+  });
+
+  // Inicialização
+  document.addEventListener('DOMContentLoaded', function() {
+    resetModelFilters();
+    updateSearchButton();
+  });
+
+  // Função para resetar todos os filtros (opcional)
+  function resetAllFilters() {
+    selectedBrand = null;
+    selectedModel = null;
+    
+    document.querySelectorAll('.filter-btn.active').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    resetModelFilters();
+    updateSearchButton();
+    
+    resultsDiv.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
+
